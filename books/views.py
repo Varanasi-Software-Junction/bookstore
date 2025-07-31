@@ -33,3 +33,13 @@ def book_delete(request, id):
         book.delete()
         return redirect('book_list')
     return render(request, 'books/book_confirm_delete.html', {'book': book})
+def add_book(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        subject = request.POST.get('subject')
+        price = request.POST.get('price')
+
+        # Save to DB
+        Book.objects.create(name=name, subject=subject, price=price)
+        return redirect('add_book')  # reload after saving
+    return render(request, 'books/add_book.html')
